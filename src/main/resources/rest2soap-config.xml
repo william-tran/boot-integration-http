@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/integration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:ws="http://www.springframework.org/schema/integration/ws" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/integration
+			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/stream
+			http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+			http://www.springframework.org/schema/integration/ws
+			http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+			http://www.springframework.org/schema/integration/http 
+			http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+			http://www.springframework.org/schema/oxm 
+			http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+	<int-http:inbound-gateway request-channel="httpRequestChannel" path="/rest2soap"
+		supported-methods="POST" reply-channel="httpResponseChannel" mapped-response-headers="contentType" />
+	<channel id="httpResponseChannel" />
+	<oxm:jaxb2-marshaller id="soapMarshaller" context-path="demo.soap"/>
+	<chain input-channel="httpRequestChannel" output-channel="httpResponseChannel">
+		<json-to-object-transformer type="demo.soap.FahrenheitToCelsius"/>
+		<ws:header-enricher>
+			<ws:soap-action value="http://www.w3schools.com/webservices/FahrenheitToCelsius" />
+		</ws:header-enricher>
+		<ws:outbound-gateway uri="http://www.w3schools.com/webservices/tempconvert.asmx" marshaller="soapMarshaller"/>
+		<object-to-json-transformer/>
+	</chain>
+
+</beans:beans>
