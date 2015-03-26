@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource("servlet-config.xml")
+@ImportResource({"echo-config.xml"})
 public class BootIntegrationHttpApplication {
 
     public static void main(String[] args) {
