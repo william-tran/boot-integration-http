@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource({"echo-config.xml", "soap-config.xml", "rest2soap-config.xml"})
+@ImportResource({"echo-config.xml"})
 public class BootIntegrationHttpApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BootIntegrationHttpApplication.class, args);
+       SpringApplication.run(BootIntegrationHttpApplication.class, args);
     }
 }

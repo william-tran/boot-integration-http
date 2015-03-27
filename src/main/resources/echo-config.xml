@@ -11,7 +11,7 @@
 
 	<int:channel id="echoChannel" />
 
-	<int:service-activator input-channel="echoChannel" expression="payload + ' from the other side'" />
+	<int:service-activator input-channel="echoChannel" expression="payload + ' ' + @echoProperties['message']" />
 
 
 </beans>
